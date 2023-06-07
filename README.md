@@ -10,3 +10,6 @@ Make an interface for commands that can easily be interpreted by CyberController
 
 ## Parser
 Make a parser to convert statement into commands like `move up` to `CommandMove(EnumDirection.UP)`
+
+## Stack
+Make a Command stack that pops and pushes the more layers of command that you go into.

@@ -23,15 +23,13 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
 
-        float horiz = Input.GetAxis("Horizontal");
-        float vert = Input.GetAxis("Vertical");
-        
+    public void move(float horiz, float vert) {
         Vector3 newPos = transform.position + (Vector3)new Vector2(horiz, vert) * Time.deltaTime * maxSpeed;
         newPos.x = Mathf.Clamp(newPos.x, minPos.x, maxPos.x);
         newPos.y = Mathf.Clamp(newPos.y, minPos.y, maxPos.y);
 
         transform.position = newPos;
-
     }
 }
