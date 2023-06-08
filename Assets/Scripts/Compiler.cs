@@ -25,6 +25,7 @@ public class Compiler
                 }
             } else {
                 bool isHandled = false;
+                
                 EnumResult res;
                 switch(token) {
                     case "up":
@@ -44,9 +45,10 @@ public class Compiler
                         isHandled = true;
                         break;
                     default:
-                        res = EnumResult.OK;
+                        res = EnumResult.ERR;
                         break;
                 }
+                
                 if(res == EnumResult.ERR) return EnumResult.ERR;
                 if(!isHandled) return EnumResult.ERR;
             }
