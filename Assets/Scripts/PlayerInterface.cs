@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerInterface : MonoBehaviour
 {
+    
     public BotMovement controlBot; 
     public CameraController cameraController;
 
