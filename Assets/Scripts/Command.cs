@@ -6,4 +6,7 @@ public abstract class Command
 {
     public bool isIncomplete;
     public abstract void run(PlayerInterface player);
+    public abstract EnumResult addProp<T>(T prop);
+    
+    
 }

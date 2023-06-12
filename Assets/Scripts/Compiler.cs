@@ -29,19 +29,19 @@ public class Compiler
                 EnumResult res;
                 switch(token) {
                     case "up":
-                        res = currentCommand.provideDir(EnumDirection.UP);
+                        res = currentCommand.provideProp(EnumDirection.UP);
                         isHandled = true;
                         break;
                     case "down":
-                        res = currentCommand.provideDir(EnumDirection.DOWN);
+                        res = currentCommand.provideProp(EnumDirection.DOWN);
                         isHandled = true;
                         break;
                     case "left":
-                        res = currentCommand.provideDir(EnumDirection.LEFT);
+                        res = currentCommand.provideProp(EnumDirection.LEFT);
                         isHandled = true;
                         break;
                     case "right":
-                        res = currentCommand.provideDir(EnumDirection.RIGHT);
+                        res = currentCommand.provideProp(EnumDirection.RIGHT);
                         isHandled = true;
                         break;
                     default:
