@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 public class Compiler 
 {
+    static Dictionary <string,Regex> Syntax;
     public static Command[] compile(string code) {
         code.Split('\n');
         return null;
     }
 
     public static EnumResult interpret(string code, PlayerInterface player) {
+        if (Syntax==null)
+        {
+            Syntax= new Dictionary<string, Regex>();
+            Syntax.Add("move",new Regex(@"^move [a-zA-Z]+$"));
+        }
         code = code.Trim();
         string[] tokens = code.Split(' ');
         CommandBuilder currentCommand = new CommandBuilder();
@@ -17,8 +24,10 @@ public class Compiler
             string token = tokens[i];
             Debug.Log("Handling " + token);
             if(currentCommand.noCommand()) {
-                if(token.CompareTo("move") == 0)
+                if(token.CompareTo("move") == 0 &&  Syntax["move"].IsMatch(code))
+                {
                     currentCommand.MakeMoveCommand();
+                }
                 else {
                     Debug.Log("This error right here, officer");
                     return EnumResult.ERR;
