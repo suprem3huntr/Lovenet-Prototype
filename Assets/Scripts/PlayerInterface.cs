@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System;
 
 public class PlayerInterface : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class PlayerInterface : MonoBehaviour
     public CameraController cameraController;
 
     public bool inWorld = true;
+    private Queue<Action<PlayerInterface>> toRun;
+    bool finishedCompile=false;
+
+    void Awake()
+    {
+        toRun=new Queue<Action<PlayerInterface>>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +28,7 @@ public class PlayerInterface : MonoBehaviour
     void Update()
     {
         if(inWorld) {
-            if(!controlBot.isBusy) {
+            /* if(!controlBot.isBusy) {
                 if(Input.GetKeyDown("i")) {
                     controlBot.moveBot(EnumDirection.UP);
                 } else if(Input.GetKeyDown("k")) {
@@ -30,13 +38,25 @@ public class PlayerInterface : MonoBehaviour
                 } else if (Input.GetKeyDown("l")) {
                     controlBot.moveBot(EnumDirection.RIGHT);
                 }
-            }
+            } */
 
             float horiz = Input.GetAxis("Horizontal");
             float vert = Input.GetAxis("Vertical");
 
             if(horiz != 0.0f || vert != 0.0f) {
                 cameraController.move(horiz, vert);
+            }
+
+            if (finishedCompile && !controlBot.isBusy)
+            {
+                if(toRun.Count!=0)
+                {
+                    toRun.Dequeue().Invoke(this);
+                }
+                else
+                {
+                    finishedCompile=false;
+                }
             }
         }
     }
@@ -51,5 +71,13 @@ public class PlayerInterface : MonoBehaviour
 
     public void setInWorld(bool inWorld) {
         this.inWorld = inWorld;
+    }
+    public void AddCommand(Action<PlayerInterface> command)
+    {
+        toRun.Enqueue(command);
+    }
+    public void Run()
+    {
+        finishedCompile=true;
     }
 }

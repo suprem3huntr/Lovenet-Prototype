@@ -62,7 +62,7 @@ public class Compiler
                 if(!isHandled) return EnumResult.ERR;
             }
         }
-        currentCommand.build().run(player);
+        player.AddCommand(currentCommand.build().run);
         Debug.Log("Done!");
         return EnumResult.OK;
     }
