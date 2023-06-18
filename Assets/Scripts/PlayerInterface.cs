@@ -2,26 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEditor;
+using System.Reflection;
 using System;
+using CompilerExceptions;
 
 public class PlayerInterface : MonoBehaviour
 {
     
     public BotMovement controlBot; 
     public CameraController cameraController;
+    public MonoScript[] commands;
 
     public bool inWorld = true;
-    private Queue<Action<PlayerInterface>> toRun;
-    bool finishedCompile=false;
+    string code;
 
     void Awake()
     {
-        toRun=new Queue<Action<PlayerInterface>>();
+        code = "";
+        foreach(MonoScript script in commands) {
+            Type type = script.GetClass();    
+            Activator.CreateInstance(type);
+        }
+        Compiler.AddToSyntax();
     }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -46,38 +55,41 @@ public class PlayerInterface : MonoBehaviour
             if(horiz != 0.0f || vert != 0.0f) {
                 cameraController.move(horiz, vert);
             }
-
-            if (finishedCompile && !controlBot.isBusy)
-            {
-                if(toRun.Count!=0)
-                {
-                    toRun.Dequeue().Invoke(this);
-                }
-                else
-                {
-                    finishedCompile=false;
-                }
-            }
         }
     }
 
     public void Interpret(TMP_InputField tmp) {
-        Compiler.interpret(tmp.text, this);
+        try {
+            ICommand command = Compiler.interpret(tmp.text);
+            command.run(this);
+        } catch(GameException err) {
+            Debug.LogError(err.Message);
+        } 
+    }
+
+    public void AddLine(TMP_InputField tmp) {
+        if (code != "") code += "\n";
+        code += tmp.text;
+    }
+
+    public void compileAndRun() {
+        Debug.Log("I have reacheth");
+        Queue<ICommand> commandQueue = Compiler.compile(code);
+        while(commandQueue.Count > 0) {
+            commandQueue.Dequeue().run(this);
+        }
+        code = "";
     }
 
     public void MoveBot(EnumDirection dir) {
-        controlBot.moveBot(dir);
+        StartCoroutine(controlBot.moveBot(dir));
+    }
+
+    public bool CanBotMove() {
+        return controlBot.isBusy;
     }
 
     public void setInWorld(bool inWorld) {
         this.inWorld = inWorld;
-    }
-    public void AddCommand(Action<PlayerInterface> command)
-    {
-        toRun.Enqueue(command);
-    }
-    public void Run()
-    {
-        finishedCompile=true;
     }
 }

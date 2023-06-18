@@ -500,7 +500,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 930819211}
         m_TargetAssemblyTypeName: PlayerInterface, Assembly-CSharp
-        m_MethodName: Run
+        m_MethodName: compileAndRun
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -700,6 +700,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlBot: {fileID: 1135016388}
   cameraController: {fileID: 1067988491}
+  commands:
+  - {fileID: 11500000, guid: 8ee3ceff0421a46ecbc44b198d712eea, type: 3}
+  - {fileID: 11500000, guid: 6379af1344851bf59a592ef9e2a034b6, type: 3}
   inWorld: 1
 --- !u!4 &930819212
 Transform:
@@ -4252,7 +4255,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 930819211}
         m_TargetAssemblyTypeName: PlayerInterface, Assembly-CSharp
-        m_MethodName: Interpret
+        m_MethodName: AddLine
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 2026815476}
@@ -4266,6 +4269,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2026815476}
+        m_TargetAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+        m_MethodName: ActivateInputField
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4328,8 +4343,8 @@ MonoBehaviour:
   m_ReadOnly: 0
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_OnFocusSelectAll: 1
-  m_ResetOnDeActivation: 1
+  m_OnFocusSelectAll: 0
+  m_ResetOnDeActivation: 0
   m_RestoreOriginalTextOnEscape: 1
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0

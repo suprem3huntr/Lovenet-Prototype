@@ -29,7 +29,10 @@ public class BotMovement : MonoBehaviour
         }
     }
 
-    public void moveBot(EnumDirection dir) {
+    public IEnumerator moveBot(EnumDirection dir) {
+        while (isBusy) {
+            yield return null;
+        }
         currPos = transform.position;
         isBusy = true;
         switch(dir) {
